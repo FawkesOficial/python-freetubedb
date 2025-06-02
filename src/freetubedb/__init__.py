@@ -1,6 +1,3 @@
-# TODO
-# all = []
-
 __productname__ = "freetubedb"
 __version__ = "1.0.0"
 __description__ = "Python library for interacting with FreeTube's playlists.db file"
@@ -12,3 +9,10 @@ __bugtracker__ = "https://github.com/FawkesOficial/python-freetubedb/issues"
 __ci__ = "https://github.com/FawkesOficial/python-freetubedb/actions"
 __changelog__ = "https://github.com/FawkesOficial/python-freetubedb/releases"
 __cake__ = "lie"
+
+
+from freetubedb.models import FreetubePlaylist, FreetubeVideo
+from freetubedb.parser import parse_playlists_file
+
+
+__all__ = ["FreetubePlaylist", "FreetubeVideo", "parse_playlists_file"]
