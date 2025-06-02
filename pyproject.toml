@@ -27,9 +27,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Documentation = "https://github.com/FawkesOficial/freetubedb#readme"
-Issues = "https://github.com/FawkesOficial/freetubedb/issues"
-Source = "https://github.com/FawkesOficial/freetubedb"
+Documentation = "https://github.com/FawkesOficial/python-freetubedb#readme"
+Issues = "https://github.com/FawkesOficial/python-freetubedb/issues"
+Source = "https://github.com/FawkesOficial/python-freetubedb"
 
 [tool.hatch.version]
-path = "src/freetubedb/__about__.py"
+path = "src/freetubedb/__init__.py"
