@@ -1,5 +1,5 @@
 __productname__ = "freetubedb"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __description__ = "Python library for interacting with FreeTube's playlists.db file"
 __url__ = "https://github.com/FawkesOficial/python-freetubedb"
 __author__ = "FawkesOficial"
