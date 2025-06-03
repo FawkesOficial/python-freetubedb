@@ -30,4 +30,4 @@ Issues = "https://github.com/FawkesOficial/python-freetubedb/issues"
 Source = "https://github.com/FawkesOficial/python-freetubedb"
 
 [tool.hatch.version]
-path = "src/freetubedb/__init__.py"
+path = "freetubedb/__init__.py"
