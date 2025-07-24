@@ -11,8 +11,15 @@ __changelog__ = "https://github.com/FawkesOficial/python-freetubedb/releases"
 __cake__ = "lie"
 
 
-from freetubedb.models import FreetubePlaylist, FreetubeVideo
-from freetubedb.parser import parse_playlists_file
+from freetubedb.models import FreetubePlaylist, FreetubeVideo, FreetubeSearchEntry
+from freetubedb.parsers.freetube import ft_parse_playlists_file
+from freetubedb.parsers.youtube import parse_search_history
 
 
-__all__ = ["FreetubePlaylist", "FreetubeVideo", "parse_playlists_file"]
+__all__ = [
+    "FreetubePlaylist",
+    "FreetubeVideo",
+    "FreetubeSearchEntry",
+    "ft_parse_playlists_file",
+    "parse_search_history",
+]
