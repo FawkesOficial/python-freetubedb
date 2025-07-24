@@ -3,14 +3,13 @@ Module containing the "playlists.db" file parser.
 """
 
 import json
-import platform
 from pathlib import Path
 from typing import Optional, Any, Union
 
 from freetubedb import FreetubePlaylist, FreetubeVideo
 
 
-__all__ = ["parse_playlists_file"]
+__all__ = ["ft_parse_playlists_file"]
 
 
 def default_playlists_file_path() -> Path:
@@ -29,7 +28,7 @@ def default_playlists_file_path() -> Path:
             return Path("~/.config/FreeTube/playlists.db").expanduser()
 
 
-def parse_video_entry(video_entry: dict[str, Union[str, int]]) -> FreetubeVideo:
+def ft_parse_video_entry(video_entry: dict[str, Union[str, int]]) -> FreetubeVideo:
     return FreetubeVideo(
         id=str(video_entry["videoId"]),
         title=str(video_entry["title"]),
@@ -42,7 +41,7 @@ def parse_video_entry(video_entry: dict[str, Union[str, int]]) -> FreetubeVideo:
     )
 
 
-def parse_playlist_entries(
+def ft_parse_playlist_entries(
     playlist_entries: list[dict[str, Any]],
 ) -> list[FreetubePlaylist]:
     playlists: list[FreetubePlaylist] = []
@@ -66,7 +65,7 @@ def parse_playlist_entries(
                 name=str(playlist_entry["playlistName"]),
                 description=str(playlist_entry["description"]),
                 protected=bool(playlist_entry["protected"]),
-                videos=list(map(parse_video_entry, playlist_entry["videos"])),
+                videos=list(map(ft_parse_video_entry, playlist_entry["videos"])),
             )
         )
         seen_playlist_ids.add(id)
@@ -74,7 +73,7 @@ def parse_playlist_entries(
     return playlists
 
 
-def parse_playlists_file(
+def ft_parse_playlists_file(
     playlists_file: Optional[Path] = None,
 ) -> list[FreetubePlaylist]:
     playlists_file = playlists_file or default_playlists_file_path()
@@ -93,4 +92,4 @@ def parse_playlists_file(
             playlist_entry: dict[str, Any] = json.loads(line)
             playlist_entries.append(playlist_entry)
 
-    return parse_playlist_entries(playlist_entries)
+    return ft_parse_playlist_entries(playlist_entries)
