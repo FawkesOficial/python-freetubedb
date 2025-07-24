@@ -3,7 +3,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/freetubedb.svg)](https://pypi.org/project/freetubedb)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/freetubedb.svg)](https://pypi.org/project/freetubedb)
 
-Python library for interacting with [FreeTube](https://freetubeapp.io/)'s playlists.db file 
+Python library for interacting with [FreeTube](https://freetubeapp.io/)'s database files and importing YouTube's data export
 
 -----
 
@@ -57,16 +57,37 @@ class FreetubeVideo:
     playlist_item_id: str
 ```
 
+### `FreetubeSearchEntry`
+```python
+@dataclass(frozen=True)
+class FreetubeSearchEntry:
+    """
+    FreetubeSearchEntry class. Contains all the information stored about a search entry.
+    """
+
+    id: str
+    lastUpdatedAt: int  # unix timestamp
+
+    @property
+    def search(self) -> str:
+        """
+        The string that was searched.
+        """
+
+        # note: in FreeTube's database, the "_id" of each entry is the search query itself
+        return self.id
+```
+
 ### Example
 ```python
 from pathlib import Path
-from freetubedb import parse_playlists_file, FreetubePlaylist
+from freetubedb import ft_parse_playlists_file, FreetubePlaylist
 
 # uses default FreeTube path based on operating system
-playlists: list[FreetubePlaylist] = parse_playlists_file()
+playlists: list[FreetubePlaylist] = ft_parse_playlists_file()
 
 # alternatively, you can supply your own custom path:
-# playlists: list[FreetubePlaylist] = parse_playlists_file(Path("./playlists.db"))
+# playlists: list[FreetubePlaylist] = ft_parse_playlists_file(Path("./playlists.db"))
 
 
 for playlist in playlists:

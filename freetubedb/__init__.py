@@ -1,6 +1,6 @@
 __productname__ = "freetubedb"
 __version__ = "1.0.1"
-__description__ = "Python library for interacting with FreeTube's playlists.db file"
+__description__ = "Python library for interacting with [FreeTube](https://freetubeapp.io/)'s database files and importing YouTube's data export"
 __url__ = "https://github.com/FawkesOficial/python-freetubedb"
 __author__ = "FawkesOficial"
 __author_email__ = "mario.lourenco.morte@gmail.com"
