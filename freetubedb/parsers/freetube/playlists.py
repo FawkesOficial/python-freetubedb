@@ -7,25 +7,10 @@ from pathlib import Path
 from typing import Optional, Any, Union
 
 from freetubedb import FreetubePlaylist, FreetubeVideo
+from freetubedb.constants import FREETUBE_DEFAULT_DB_PATH
 
 
 __all__ = ["ft_parse_playlists_file"]
-
-
-def default_playlists_file_path() -> Path:
-    # https://docs.freetubeapp.io/usage/data-location/
-
-    match platform.system():
-        case "Windows":
-            import os
-
-            return Path(str(os.getenv("APPDATA"))).joinpath("FreeTube", "playlists.db")
-        case "Darwin":  # macOS
-            return Path(
-                "~/Library/Application Support/FreeTube/playlists.db"
-            ).expanduser()
-        case _:  # Linux/Unix
-            return Path("~/.config/FreeTube/playlists.db").expanduser()
 
 
 def ft_parse_video_entry(video_entry: dict[str, Union[str, int]]) -> FreetubeVideo:
@@ -76,7 +61,7 @@ def ft_parse_playlist_entries(
 def ft_parse_playlists_file(
     playlists_file: Optional[Path] = None,
 ) -> list[FreetubePlaylist]:
-    playlists_file = playlists_file or default_playlists_file_path()
+    playlists_file = playlists_file or FREETUBE_DEFAULT_DB_PATH.joinpath("playlists.db")
 
     if not playlists_file.exists():
         raise FileNotFoundError(f"File does not exist: {playlists_file}")
