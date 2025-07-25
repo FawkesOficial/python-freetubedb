@@ -4,7 +4,7 @@ import typer
 from typing_extensions import Annotated
 
 from freetubedb.custom_types import Parser, ParserOutput
-from freetubedb.constants import YT_FILE_TO_PARSER
+from freetubedb.constants import YT_FILE_TO_PARSER, YT_TO_FREETUBE_FILENAME
 from freetubedb.models import Exportable
 
 
@@ -16,6 +16,7 @@ def import_youtube(
     export_file: Annotated[
         Path,
         typer.Argument(
+            help="A YouTube export file (ex: search-history.json, watch-history.json, etc)",
             exists=True,
             file_okay=True,
             dir_okay=False,
@@ -23,23 +24,44 @@ def import_youtube(
             resolve_path=True,
         ),
     ],
+    output_path: Annotated[
+        Optional[Path],
+        typer.Option(
+            "--output",
+            "-o",
+            help="The output path (FreeTube correspondent db file by default)",
+            writable=True,
+            resolve_path=True,
+        ),
+    ] = None,
 ):
     parser: Optional[Parser] = YT_FILE_TO_PARSER.get(export_file.name)
     if not parser:
         print(
-            f'No parser was found for "{str(export_file)}". Are you sure this is a YouTube export file?'
+            f'[ERROR] No parser was found for "{export_file.name}". '
+            "Are you sure this is a supported YouTube export file?"
         )
         raise typer.Exit(code=1)
 
     output: ParserOutput = parser(export_file)
     if not isinstance(output, Exportable):
         print(
-            "[ERROR/DEBUG] output not Exportable!!!"
-        )  # TODO: write a propper error message here
+            f"[ERROR] Parsed output from {export_file.name} is not exportable. "
+            "Ensure the parser returns an object implementing `Exportable`."
+        )
         raise typer.Exit(code=1)
 
-    output.export_to_file(Path("./output.db"))
-    print("Success!!!")  # TODO: write a propper success message here
+    default_filename: str = YT_TO_FREETUBE_FILENAME[export_file.name]
+    if output_path and output_path.is_dir():
+        output_path = output_path.joinpath(default_filename)
+    else:
+        output_path = Path(".").joinpath(default_filename)
+
+    output.export_to_file(output_path)
+
+    print(
+        f"[SUCCESS] YouTube export from '{export_file.name}' imported and written to '{output_path.resolve()}'"
+    )
 
 
 if __name__ == "__main__":
