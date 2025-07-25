@@ -1,13 +1,16 @@
 """
-TODO
+Module holding freetubedb's constants
 """
 
 from pathlib import Path
 import platform
 import os
 
+from freetubedb.custom_types import Parser
+from freetubedb.parsers.youtube import yt_parse_search_history_file
 
-__all__ = ["FREETUBE_DEFAULT_DB_PATH"]
+
+__all__ = ["FREETUBE_DEFAULT_DB_PATH", "YT_FILE_TO_PARSER"]
 
 
 def get_freetube_default_db_path() -> Path:
@@ -23,3 +26,10 @@ def get_freetube_default_db_path() -> Path:
 
 
 FREETUBE_DEFAULT_DB_PATH: Path = get_freetube_default_db_path()
+
+YT_FILE_TO_PARSER: dict[
+    str,
+    Parser,
+] = {"search-history.json": yt_parse_search_history_file}
+
+# TODO: YT_TO_FREETUBE_FILENAME dict
