@@ -17,7 +17,10 @@ def yt_parse_search_history_entry(
     dt = datetime.fromisoformat(str(entry["time"]).replace("Z", "+00:00"))
     unix_timestamp: int = int(dt.timestamp())
 
-    return FreetubeSearchEntry(id=str(entry["title"]), lastUpdatedAt=unix_timestamp)
+    return FreetubeSearchEntry(
+        id=str(entry["title"]).removeprefix("Searched for "),
+        lastUpdatedAt=unix_timestamp,
+    )
 
 
 def yt_parse_search_history_file(
