@@ -33,3 +33,4 @@ YT_FILE_TO_PARSER: dict[
 ] = {"search-history.json": yt_parse_search_history_file}
 
 # TODO: YT_TO_FREETUBE_FILENAME dict
+YT_TO_FREETUBE_FILENAME: dict[str, str] = {"search-history.json": "search-history.db"}
