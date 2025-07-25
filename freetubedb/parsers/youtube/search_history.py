@@ -6,7 +6,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable, Union
-from freetubedb import FreetubeSearchEntry
+
+from freetubedb.models import FreetubeSearchEntry, FreetubeSearchHistory
 
 __all__ = ["yt_parse_search_history_file"]
 
@@ -25,7 +26,7 @@ def yt_parse_search_history_entry(
 
 def yt_parse_search_history_file(
     search_history_file: Path,
-) -> list[FreetubeSearchEntry]:
+) -> FreetubeSearchHistory:
     if not search_history_file.exists():
         raise FileNotFoundError(f"File does not exist: {search_history_file}")
 
@@ -35,4 +36,9 @@ def yt_parse_search_history_file(
         if not isinstance(data, list):
             raise ValueError("[YT: search_history] Improper data format")
         else:
-            return list(map(yt_parse_search_history_entry, data))
+            return FreetubeSearchHistory(
+                sorted(
+                    map(yt_parse_search_history_entry, data),
+                    key=lambda search_entry: search_entry.lastUpdatedAt,
+                )
+            )
