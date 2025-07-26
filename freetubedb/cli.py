@@ -57,7 +57,7 @@ def import_youtube(
     else:
         output_path = Path(".").joinpath(default_filename)
 
-    output.export_to_file(output_path)
+    output_path.write_text(output.export() + "\n")
 
     print(
         f"[SUCCESS] YouTube export from '{export_file.name}' imported and written to '{output_path.resolve()}'"
