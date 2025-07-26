@@ -20,8 +20,8 @@ def ft_parse_video_entry(video_entry: dict[str, Union[str, int]]) -> FreetubeVid
         author_id=str(video_entry["authorId"]),
         author_name=str(video_entry["author"]),
         length=int(video_entry["lengthSeconds"]),
-        date_published=int(video_entry["published"]),
-        date_added=int(video_entry["timeAdded"]),
+        date_published_ts=int(video_entry["published"]),
+        date_added_ts=int(video_entry["timeAdded"]),
         playlist_item_id=str(video_entry["playlistItemId"]),
     )
 

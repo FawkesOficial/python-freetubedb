@@ -2,7 +2,9 @@
 Module containing the FreetubeVideo class.
 """
 
+import datetime
 from dataclasses import dataclass
+from typing import Optional
 
 
 __all__ = ["FreetubeVideo"]
@@ -21,7 +23,28 @@ class FreetubeVideo:
     author_name: str
 
     length: int  # seconds
-    date_published: int  # unix timestamp
-    date_added: int  # unix timestamp
+    date_published_ts: int  # unix timestamp (ms)
 
     playlist_item_id: str
+
+    date_added_ts: Optional[int] = None  # unix timestamp (ms)
+
+    @property
+    def date_published(self) -> datetime.datetime:
+        """
+        The date the video was published.
+        """
+
+        return datetime.datetime.fromtimestamp(self.date_published_ts / 1000)
+
+    @property
+    def date_added(self) -> Optional[datetime.datetime]:
+        """
+        The date the video was added to the playlist, when in a FreetubePlaylist context.
+        """
+
+        return (
+            datetime.datetime.fromtimestamp(self.date_added_ts / 1000)
+            if self.date_added_ts
+            else None
+        )
