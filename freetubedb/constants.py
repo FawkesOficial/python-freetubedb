@@ -7,7 +7,10 @@ import platform
 import os
 
 from freetubedb.custom_types import Parser
-from freetubedb.parsers.youtube import yt_parse_search_history_file
+from freetubedb.parsers.youtube import (
+    yt_parse_search_history_file,
+    yt_parse_watch_history_file,
+)
 
 
 __all__ = ["FREETUBE_DEFAULT_DB_PATH", "YT_FILE_TO_PARSER"]
@@ -30,7 +33,13 @@ FREETUBE_DEFAULT_DB_PATH: Path = get_freetube_default_db_path()
 YT_FILE_TO_PARSER: dict[
     str,
     Parser,
-] = {"search-history.json": yt_parse_search_history_file}
+] = {
+    "search-history.json": yt_parse_search_history_file,
+    "watch-history.json": yt_parse_watch_history_file,
+}
 
 # TODO: YT_TO_FREETUBE_FILENAME dict
-YT_TO_FREETUBE_FILENAME: dict[str, str] = {"search-history.json": "search-history.db"}
+YT_TO_FREETUBE_FILENAME: dict[str, str] = {
+    "search-history.json": "search-history.db",
+    "watch-history.json": "history.db",
+}
