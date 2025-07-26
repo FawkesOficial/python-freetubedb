@@ -20,7 +20,7 @@ def yt_parse_search_history_entry(
 
     return FreetubeSearchEntry(
         id=str(entry["title"]).removeprefix("Searched for "),
-        lastUpdatedAt=unix_timestamp,
+        last_updated_ts=unix_timestamp,
     )
 
 
@@ -39,6 +39,6 @@ def yt_parse_search_history_file(
             return FreetubeSearchHistory(
                 sorted(
                     map(yt_parse_search_history_entry, data),
-                    key=lambda search_entry: search_entry.lastUpdatedAt,
+                    key=lambda search_entry: search_entry.last_updated_ts,
                 )
             )

@@ -23,11 +23,11 @@ class FreetubeVideo:
     author_name: str
 
     length: int  # seconds
-    date_published_ts: int  # unix timestamp (ms)
+    published_ts: int  # unix timestamp (ms)
 
     playlist_item_id: str
 
-    date_added_ts: Optional[int] = None  # unix timestamp (ms)
+    added_to_playlist: Optional[int] = None  # unix timestamp (ms)
 
     @property
     def date_published(self) -> datetime.datetime:
@@ -35,16 +35,16 @@ class FreetubeVideo:
         The date the video was published.
         """
 
-        return datetime.datetime.fromtimestamp(self.date_published_ts / 1000)
+        return datetime.datetime.fromtimestamp(self.published_ts / 1000)
 
     @property
-    def date_added(self) -> Optional[datetime.datetime]:
+    def date_added_to_playlist(self) -> Optional[datetime.datetime]:
         """
         The date the video was added to the playlist, when in a FreetubePlaylist context.
         """
 
         return (
-            datetime.datetime.fromtimestamp(self.date_added_ts / 1000)
-            if self.date_added_ts
+            datetime.datetime.fromtimestamp(self.added_to_playlist / 1000)
+            if self.added_to_playlist
             else None
         )
