@@ -9,6 +9,10 @@ from freetubedb.models.freetube_search_history import (
     FreetubeSearchHistory,
     FreetubeSearchEntry,
 )
+from freetubedb.models.freetube_watch_history import (
+    FreetubeWatchHistory,
+    FreetubeHistoryEntry,
+)
 
 
 __all__ = [
@@ -17,4 +21,6 @@ __all__ = [
     "FreetubeVideo",
     "FreetubeSearchEntry",
     "FreetubeSearchHistory",
+    "FreetubeWatchHistory",
+    "FreetubeHistoryEntry",
 ]
