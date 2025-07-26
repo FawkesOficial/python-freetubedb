@@ -2,8 +2,9 @@
 Module containing the FreetubeSearchHistory and FreetubeSearchEntry classes.
 """
 
-from pathlib import Path
+import datetime
 from dataclasses import dataclass
+from typing import ClassVar
 
 from freetubedb.models import Exportable
 
@@ -12,13 +13,19 @@ __all__ = ["FreetubeSearchHistory", "FreetubeSearchEntry"]
 
 
 @dataclass(frozen=True)
-class FreetubeSearchEntry:
+class FreetubeSearchEntry(Exportable):
     """
     FreetubeSearchEntry class. Contains all the information stored about a search entry.
     """
 
     id: str
-    lastUpdatedAt: int  # unix timestamp
+    last_updated_ts: int  # unix timestamp (ms)
+
+    # freetube name -> custom freetubedb name
+    RENAME_MAP: ClassVar[dict[str, str]] = {
+        "_id": "id",
+        "lastUpdatedAt": "last_updated_ts",
+    }
 
     @property
     def search(self) -> str:
@@ -29,6 +36,14 @@ class FreetubeSearchEntry:
         # note: in FreeTube's database, the "_id" of each entry is the search query itself
         return self.id
 
+    @property
+    def date_last_updated(self) -> datetime.datetime:
+        """
+        The date the query was searched.
+        """
+
+        return datetime.datetime.fromtimestamp(self.last_updated_ts / 1000)
+
 
 class FreetubeSearchHistory(list[FreetubeSearchEntry], Exportable):
     """
@@ -36,9 +51,5 @@ class FreetubeSearchHistory(list[FreetubeSearchEntry], Exportable):
     Wrapper around `list[FreetubeSearchHistory]`
     """
 
-    def export_to_file(self, export_file: Path = Path("search-history.db")) -> None:
-        with export_file.open("w", encoding="utf-8") as f:
-            for search_entry in self:
-                f.write(
-                    f'{{"_id":"{search_entry.id}","lastUpdatedAt":{search_entry.lastUpdatedAt}}}\n'
-                )
+    def export(self) -> str:
+        return "\n".join(map(lambda _: _.export(), self))
